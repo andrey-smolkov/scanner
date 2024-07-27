@@ -12,4 +12,4 @@ class HttpService {
 
 const httpService = new HttpService();
 
-export { httpService }
+export { httpService };
