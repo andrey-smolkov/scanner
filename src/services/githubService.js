@@ -2,9 +2,8 @@ import { httpService } from './httpService.js';
 
 
 class GithubService {
-    constructor(token) {
+    constructor() {
         this.url = 'https://api.github.com'
-        this.headers  = {Authorization: `token ${token}`};
     }
 
     getResponseData(response){
