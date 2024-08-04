@@ -1,8 +1,5 @@
-import { gql } from 'apollo-server';
-import pLimit from 'p-limit' ;
-import { repoService } from "./services/repoService.js";
-
-const limit = pLimit(2);
+import {gql} from 'apollo-server';
+import {repoService} from "./services/repoService.js";
 
 export const typeDefs = gql`
 type Repository {
@@ -17,7 +14,7 @@ type Repository {
 
 type Query {
     listRepositories(token: String!): [Repository]
-    repositoryDetails(token: String!, repoName: String!, userName: String!): Repository
+    repositoryListDetails(token: String!, repoNames: [String]!, userName: String!): [Repository]
 }
 `;
 
@@ -32,21 +29,17 @@ export const resolvers = {
             }
         },
 
-        repositoryDetails: async (_, {token, repoName, userName}) => {
-            console.log(token, repoName);
-            const getRepoDetails = async() => {
-                try {
-                    const details = await repoService.getRepoDetails({token, repoName, userName});
-                    console.log(details);
-                    return details
-                } catch (error) {
-                    // log error
-                    throw error;
-                }
+        repositoryListDetails: async (_, {token, repoNames, userName}) => {
+            try {
+                 return await repoService.getRepoListDetails({token, repoNames, userName});
+            } catch (error) {
+                // log error
+                throw error;
             }
-
-            return limit(getRepoDetails);
         },
     },
 };
+
+
+
 

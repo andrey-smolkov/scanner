@@ -1,5 +1,6 @@
 import { githubService } from "./githubService.js";
 import { httpService } from "./httpService.js";
+import { chunk } from "../utils.js";
 
 class RepoService {
     formatList(list) {
@@ -28,6 +29,19 @@ class RepoService {
             // log error
             return null
         }
+    }
+
+    async getRepoListDetails({repoNames, token, userName, batchSize = 2}){
+        let result = []
+        const chunks = chunk(repoNames, batchSize);
+
+        for (const chunk of chunks) {
+            const chunkPromises = chunk.map((repoName) => this.getRepoDetails({token, repoName, userName}));
+
+            const chunkResult = await Promise.allSettled(chunkPromises);
+            result = [...result, ...chunkResult];
+        }
+        return result.map(({value}) => value);
     }
 
     async getRepoDetails({token, repoName, userName}) {

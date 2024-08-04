@@ -1,8 +1,8 @@
 import { httpService } from './httpService.js';
 
+
 class GithubService {
     constructor(token) {
-        console.log('token', token)
         this.url = 'https://api.github.com'
         this.headers  = {Authorization: `token ${token}`};
     }
@@ -23,7 +23,6 @@ class GithubService {
 
     async getRepo({repoName, userName}) {
         try {
-            console.log(process.env['GITHUB_TOKEN'])
             const response = await httpService.get(`${this.url}/repos/${userName}/${repoName}`, this.headers);
             return this.getResponseData(response)
         } catch (error) {
