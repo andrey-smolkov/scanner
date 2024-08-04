@@ -11,8 +11,13 @@ class GithubService {
         return response?.data;
     }
 
+    addToken(token){
+        this.headers = {...this.headers, Authorization: `token ${token}` }
+    }
+
     async getRepoList(token) {
         try {
+            this.addToken(token);
             const response = await httpService.get(`${this.url}/user/repos`,  this.headers );
             return this.getResponseData(response)
         } catch (error) {
@@ -21,8 +26,9 @@ class GithubService {
         }
     }
 
-    async getRepo({repoName, userName}) {
+    async getRepo({repoName, userName, token}) {
         try {
+            this.addToken(token);
             const response = await httpService.get(`${this.url}/repos/${userName}/${repoName}`, this.headers);
             return this.getResponseData(response)
         } catch (error) {
@@ -52,6 +58,6 @@ class GithubService {
     }
 }
 
-const githubService = new GithubService(process.env['GITHUB_TOKEN']);
+const githubService = new GithubService();
 
 export  { githubService };

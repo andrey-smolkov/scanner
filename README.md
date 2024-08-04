@@ -2,6 +2,8 @@
 - Clone repo
 - run `npm install`
 - run `node index.js`
+- add token to query
+- run query
 
 
 
@@ -10,14 +12,14 @@
 ```
 query {
      listRepositories(
-        token: "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"
+        token: ""
     ) {
         name
         size
         owner
     }
     repositoryListDetails(
-        token: "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",
+        token: "",
         repoNames: ["app1", "app2", "app3"],
         userName: "andrey-smolkov",
     ) {
