@@ -1,4 +1,5 @@
 import { httpService } from './httpService.js';
+import { logger } from "../Logger.js";
 
 class GithubService {
     constructor() {
@@ -19,7 +20,7 @@ class GithubService {
             const response = await httpService.get(`${this.url}/user/repos`,  this.headers );
             return this.getResponseData(response)
         } catch (error) {
-            // log error
+            logger.error(error);
             throw error;
         }
     }
@@ -30,7 +31,7 @@ class GithubService {
             const response = await httpService.get(`${this.url}/repos/${userName}/${repoName}`, this.headers);
             return this.getResponseData(response)
         } catch (error) {
-            // log error
+            logger.error(error);
             throw error;
         }
     }
@@ -41,7 +42,7 @@ class GithubService {
             const response = await httpService.get(`${this.url}/repos/${userName}/${repoName}/git/trees/main?recursive=1`, this.headers );
             return response?.data?.tree || []
         } catch (error) {
-            // log error
+            logger.error(error);
             throw error;
         }
     }
@@ -51,7 +52,7 @@ class GithubService {
             const response = await httpService.get(`${this.url}/repos/${userName}/${repoName}/hooks`, this.headers );
             return this.getResponseData(response)
         } catch (error) {
-            // log error
+            logger.error(error);
             throw error;
         }
     }

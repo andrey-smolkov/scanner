@@ -1,6 +1,7 @@
 import { githubService } from "./githubService.js";
 import { httpService } from "./httpService.js";
 import { chunk } from "../utils.js";
+import { logger } from "../Logger.js";
 
 class RepoService {
     formatList(list) {
@@ -26,7 +27,7 @@ class RepoService {
             const responseData = githubService.getResponseData(response);
             return this.decodeYmlContent(responseData?.content);
         } catch (error) {
-            // log error
+            logger.error(error);
             return null
         }
     }
