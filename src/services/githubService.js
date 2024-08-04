@@ -1,6 +1,5 @@
 import { httpService } from './httpService.js';
 
-
 class GithubService {
     constructor() {
         this.url = 'https://api.github.com'
@@ -36,9 +35,10 @@ class GithubService {
         }
     }
 
-    async getRepoContents({repoName, userName}) {
+    async getRepoContents({repoName, userName, token}) {
         try {
-            const response = await httpService.get(`${this.url}/repos/${userName}/${repoName}/git/trees/master?recursive=1`, this.headers );
+            this.addToken(token);
+            const response = await httpService.get(`${this.url}/repos/${userName}/${repoName}/git/trees/main?recursive=1`, this.headers );
             return response?.data?.tree || []
         } catch (error) {
             // log error
